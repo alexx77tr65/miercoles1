@@ -1,0 +1,45 @@
+<tr>
+  <td>{{ producto.id }}</td>
+  <td colspan="5">
+    <form method="post" action="/productos/{{ producto.id }}">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; align-items:start;">
+        <div>
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" value="{{ nombre if nombre is not none else producto.nombre }}" />
+          {% if errores and errores.get('nombre') %}
+            <div class="error">{{ errores['nombre'] }}</div>
+          {% endif %}
+        </div>
+
+        <div>
+          <label for="precio">Precio</label>
+          <input id="precio" name="precio" type="number" step="0.01" value="{{ precio if precio is not none else producto.precio }}" />
+          {% if errores and errores.get('precio') %}
+            <div class="error">{{ errores['precio'] }}</div>
+          {% endif %}
+        </div>
+
+        <div>
+          <label for="cantidad">Cantidad</label>
+          <input id="cantidad" name="cantidad" type="number" step="1" value="{{ cantidad if cantidad is not none else producto.cantidad }}" />
+          {% if errores and errores.get('cantidad') %}
+            <div class="error">{{ errores['cantidad'] }}</div>
+          {% endif %}
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" name="descripcion">{{ descripcion if descripcion is not none else producto.descripcion or '' }}</textarea>
+          {% if errores and errores.get('descripcion') %}
+            <div class="error">{{ errores['descripcion'] }}</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top: 16px;">
+        <button class="btn" type="submit">Guardar</button>
+        <a class="btn secondary" href="/productos/{{ producto.id }}/cancelar">Cancelar</a>
+      </div>
+    </form>
+  </td>
+</tr>

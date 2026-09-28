@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Producto no encontrado</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 30px; }
+      .card { max-width: 500px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+      .btn { display: inline-block; background: #2563eb; color: white; padding: 10px 14px; border-radius: 8px; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Producto no encontrado</h1>
+      <p>No existe un producto con el id {{ producto_id }}.</p>
+      <a class="btn" href="/productos">Volver a la lista</a>
+    </div>
+  </body>
+</html>

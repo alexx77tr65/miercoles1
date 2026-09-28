@@ -1,0 +1,12 @@
+<tr>
+  <td>{{ producto.id }}</td>
+  <td>{{ producto.nombre }}</td>
+  <td>{{ producto.precio }}</td>
+  <td>{{ producto.cantidad }}</td>
+  <td>{{ producto.descripcion or '' }}</td>
+  <td>
+    <div class="actions">
+      <a class="btn secondary" href="/productos/{{ producto.id }}/editar">Editar</a>
+    </div>
+  </td>
+</tr>

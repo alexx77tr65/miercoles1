@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar producto</title>
+    <style>
+      :root {
+        --bg-1: #f3f7ff;
+        --bg-2: #eefaf3;
+        --card: rgba(255,255,255,0.9);
+        --primary: #4f46e5;
+        --primary-dark: #3730a3;
+        --secondary: #0f766e;
+        --muted: #64748b;
+        --text: #1f2937;
+        --border: #dfe7f3;
+        --danger: #dc2626;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 20px;
+      }
+
+      .card {
+        width: min(900px, 100%);
+        background: var(--card);
+        border: 1px solid rgba(255,255,255,0.8);
+        border-radius: 24px;
+        box-shadow: 0 16px 40px rgba(79, 70, 229, 0.12);
+        padding: 30px;
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 3vw, 2.4rem);
+      }
+
+      .subtitle {
+        margin: 0 0 22px;
+        color: var(--muted);
+      }
+
+      form {
+        display: grid;
+        gap: 18px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      label {
+        font-weight: 600;
+        color: #334155;
+      }
+
+      input, textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        background: #fff;
+        font-size: 1rem;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      input:focus, textarea:focus {
+        border-color: rgba(79, 70, 229, 0.75);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+        outline: none;
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 12px;
+        padding: 11px 18px;
+        text-decoration: none;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .btn:hover { transform: translateY(-1px); }
+
+      .btn.primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        box-shadow: 0 10px 22px rgba(79, 70, 229, 0.25);
+      }
+
+      .btn.secondary {
+        background: linear-gradient(135deg, var(--secondary), #115e59);
+        color: white;
+        box-shadow: 0 10px 22px rgba(15, 118, 110, 0.22);
+      }
+
+      .error {
+        color: var(--danger);
+        font-size: 0.82rem;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Editar producto</h1>
+      <p class="subtitle">Modifica los datos del producto y guarda los cambios.</p>
+
+      <form method="post" action="/productos/{{ producto.id }}">
+        <div class="grid">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" value="{{ nombre if nombre is not none else producto.nombre }}" />
+            {% if errores and errores.get('nombre') %}
+              <div class="error">{{ errores['nombre'] }}</div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="precio">Precio</label>
+            <input id="precio" name="precio" type="number" step="0.01" value="{{ precio if precio is not none else producto.precio }}" />
+            {% if errores and errores.get('precio') %}
+              <div class="error">{{ errores['precio'] }}</div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="cantidad">Cantidad</label>
+            <input id="cantidad" name="cantidad" type="number" step="1" value="{{ cantidad if cantidad is not none else producto.cantidad }}" />
+            {% if errores and errores.get('cantidad') %}
+              <div class="error">{{ errores['cantidad'] }}</div>
+            {% endif %}
+          </div>
+
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion">{{ descripcion if descripcion is not none else producto.descripcion or '' }}</textarea>
+            {% if errores and errores.get('descripcion') %}
+              <div class="error">{{ errores['descripcion'] }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit">Guardar</button>
+          <a class="btn secondary" href="/productos">Volver a la pantalla principal</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
