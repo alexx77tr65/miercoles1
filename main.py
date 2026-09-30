@@ -2,21 +2,18 @@ import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse  # Importante
+from fastapi.responses import RedirectResponse
 
-from database import db
-from vistas import router as vistas_router
+from nucleo.conexion import conexion
+from presentacion.rutas.productos import router as productos_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     database_url = os.environ.get("DATABASE_URL")
-    if database_url:
-        await db.connect(database_url)
-    else:
-        await db.connect(None)
+    await conexion.connect(database_url)
     yield
-    await db.close()
+    await conexion.close()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -26,4 +23,5 @@ app = FastAPI(lifespan=lifespan)
 async def raiz():
     return RedirectResponse(url="/productos")
 
-app.include_router(vistas_router)
+
+app.include_router(productos_router)
